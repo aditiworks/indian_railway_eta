@@ -278,6 +278,17 @@ def conflicts(
     }
 
 
+@app.delete("/clear-predictions")
+def clear_predictions() -> dict[str, object]:
+    """Clear the in-memory platform-arrival history."""
+    with recent_arrivals_lock:
+        recent_arrivals.clear()
+    return {
+        "message": "Prediction history cleared",
+        "recent_predictions_stored": 0,
+    }
+
+
 if __name__ == "__main__":
     # Render/Railway supplies PORT. The local default keeps direct execution easy.
     port = int(os.environ.get("PORT", "8000"))
